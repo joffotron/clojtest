@@ -50,11 +50,12 @@
   (let [ p1 (first (keys scores))
          p2 (second (keys scores))
          match-choices [(choose p1) (choose p2)] ]
+    (prn match-choices)
     (if (apply draw? match-choices)
       scores
       (if (apply iwon? match-choices)
-        scores        ; increment score for me, update player
-        scores))))      ; increment score for them, update player
+        (update-in scores [p1] inc)   ; increment score for me, update player
+        (update-in scores [p2] inc)))))      ; increment score for them, update player
 
 (defn game [player1 player2 rounds]
   (reduce
